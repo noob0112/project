@@ -16,10 +16,10 @@ const {
 router.post("/", verifyTokenAndAdmin, create);
 
 // GET ALL EVENT
-router.get("/", verifyTokenAndAdmin, readAll);
+router.get("/", readAll);
 
 // GET A EVENT
-router.get("/:id", verifyTokenAndAdmin, readOne);
+router.get("/:id", readOne);
 
 // UPDATE A EVENT
 router.put("/:id", verifyTokenAndAdmin, update);
