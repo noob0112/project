@@ -88,7 +88,7 @@ const update = async (req, res) => {
   }
 };
 
-// DELET USER
+// DELETE USER
 const remove = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id)
