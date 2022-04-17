@@ -50,7 +50,7 @@ const login = async (req, res, next) => {
           },
           process.env.JWT_SEC,
           {
-            expiresIn: "30d", // expires in 30s
+            expiresIn: "30d", // expires in 30d
           }
         );
 

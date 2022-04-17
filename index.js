@@ -2,21 +2,24 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const swaggerUI = require("swagger-ui-express");
 
 const route = require("./routes/");
 const connectDB = require("./db.js");
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+const docs = require('./docs');
 
 dotenv.config();
 
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(docs ));
+
 connectDB(process.env.MONGO_URL);
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
-route(app)
+route(app);
 
-app.listen(PORT, function(){
-    console.log(`Server is starting on port: ${PORT}`)
-})
+app.listen(PORT, function () {
+  console.log(`Server is starting on port: ${PORT}`);
+});

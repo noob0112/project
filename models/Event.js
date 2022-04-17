@@ -5,7 +5,8 @@ const EventSchema = new mongoose.Schema(
     title: { type: String, require: true },
     content: { type: String, require: true },
     image: { type: String },
-    time: { type: Date, require: true },
+    timeStart: { type: Date, require: true },
+    timeStop: { type: Date, require: true },
   },
   { timestamps: true }
 );

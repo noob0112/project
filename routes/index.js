@@ -4,14 +4,16 @@ const postRouter = require("./post.js");
 const commentRouter = require("./comment.js");
 const courseRouter = require("./course.js");
 const eventRouter = require("./event.js");
+const symbolRouter = require("./symbol.js");
 
 function route(app) {
   app.use("/user", authRouter);
-  app.use("/user", userRouter);
-  app.use("/post", postRouter);
-  app.use("/comment", commentRouter);
-  app.use("/course", courseRouter);
-  app.use("/event", eventRouter);
+  app.use("/users", userRouter);
+  app.use("/posts", postRouter);
+  app.use("/comments", commentRouter);
+  app.use("/courses", courseRouter);
+  app.use("/events", eventRouter);
+  app.use("/symbols", symbolRouter);
 }
 
 module.exports = route;

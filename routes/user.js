@@ -4,16 +4,16 @@ const { unFollow, follow } = require("../controllers/followController.js")
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("../controllers/verifyTokenController.js")
 
 // GET ALL USER
-router.get("/getAll", verifyToken, readAll);
+router.get("/", verifyToken, readAll);
 
 // GET A USER BY ID
-router.get("/getByUserId/:id", verifyToken, readOne);
+router.get("/:id", verifyToken, readOne);
 
 // UPDATE A USER BY ID
-router.put("/edit/:id", verifyTokenAndAuthorization, update);
+router.put("/:id", verifyTokenAndAuthorization, update);
 
 // DELET A USER
-router.delete("/delete/:id", remove);
+router.delete("/:id", remove);
 
 // FOLLOW USER
 router.post("/follow-user", verifyToken, follow);
