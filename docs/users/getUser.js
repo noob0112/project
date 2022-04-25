@@ -10,7 +10,7 @@ module.exports = {
                 schema:{
                     $ref:"#/components/schemas/User/properties/_id"
                 },
-                required:true,
+                // required:true,
                 description: "A single user id"
             },
             {
@@ -18,7 +18,10 @@ module.exports = {
                 name: "token",
                 type: "String",
                 required:true,
-                description: "token"
+                description: "token",
+                schema:{
+                  example:"Bearer token"
+                },
             }
         ],
         responses:{

@@ -7,7 +7,7 @@ const eventRouter = require("./event.js");
 const symbolRouter = require("./symbol.js");
 
 function route(app) {
-  app.use("/user", authRouter);
+  app.use("/users", authRouter);
   app.use("/users", userRouter);
   app.use("/posts", postRouter);
   app.use("/comments", commentRouter);

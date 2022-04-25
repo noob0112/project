@@ -3,7 +3,7 @@ const {create, readAll, readOne, update, remove, join, unJoin } = require("../co
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("../controllers/verifyTokenController.js")
 
 // CRETAE COURSE
-router.post("/", create)
+router.post("/", verifyTokenAndAdmin, create)
 
 // GET ALL COURSE
 router.get("/", readAll)
@@ -12,14 +12,14 @@ router.get("/", readAll)
 router.get("/:id", readOne)
 
 // UPDATE A COURSE
-router.put("/:id", update)
+router.put("/:id", verifyTokenAndAdmin, update)
 
 // DELETE A COURSE
-router.delete("/:id", remove)
+router.delete("/:id", verifyTokenAndAdmin, remove)
 
 // JOIN a COURSE
-router.post("/join", verifyToken, join)
+router.post("/join", verifyTokenAndAuthorization, join)
 
 // UNJOIN a COURSE
-router.post("/unjoin", verifyToken, unJoin)
+router.post("/unjoin", verifyTokenAndAuthorization, unJoin)
 module.exports = router

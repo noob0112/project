@@ -3,11 +3,11 @@ const User = require("../models/User");
 // GET ALL USER
 const readAll = async (req, res) => {
   try {
-    if(req.user.isAdmin){
-      const users = await User.find();
+    if(req.user == undefined || !req.user.isAdmin){
+      const users = await User.find({}, '_id name');
       return res.status(200).json(users);
-    } else {
-      const users = await User.find({}, '-_id name phone email');
+    } else if(req.user.isAdmin) {
+      const users = await User.find();
       return res.status(200).json(users);
     }
   } catch (error) {
@@ -18,7 +18,17 @@ const readAll = async (req, res) => {
 // GET USER BY ID
 const readOne = async (req, res) => {
   try {
-    if(req.user.isAdmin){
+    if(req.user == undefined || !req.user.isAdmin){
+      await User.findById(req.params.id, '_id name')
+      .then((user) => {
+        return res.status(200).json(user);
+      })
+      .catch((error) => {
+        return res
+          .status(400)
+          .json({ status: 0, message: "User-id is non-existence", error });
+      });
+    } else if(req.user.isAdmin){
       await User.findById(req.params.id)
       .then((user) => {
         return res.status(200).json(user);
@@ -28,17 +38,7 @@ const readOne = async (req, res) => {
           .status(400)
           .json({ status: 0, message: "User-id is non-existence", error });
       });
-    } else {
-      await User.findById(req.params.id, '-_id name phone email')
-      .then((user) => {
-        return res.status(200).json(user);
-      })
-      .catch((error) => {
-        return res
-          .status(400)
-          .json({ status: 0, message: "User-id is non-existence", error });
-      });
-    }
+    } 
     
   } catch (error) {
     return res.status(500).json({ status: -1, message: "Server error", error });

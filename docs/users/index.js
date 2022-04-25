@@ -1,17 +1,15 @@
-const getTodos = require('./getUsers');
-const getTodo = require('./getUser');
-const updateTodo = require('./updateUser');
-const deleteTodo = require('./deleteUser');
+const getUsers = require('./getUsers');
+const getUser = require('./getUser');
+const updateUser = require('./updateUser');
+const deleteUser = require('./deleteUser');
 
 module.exports = {
-    paths:{
-        '/users':{
-            ...getTodos,
-        },
-        '/users/{_id}':{
-            ...getTodo,
-            ...updateTodo,
-            ...deleteTodo
-        }
-    }
+  '/users':{
+      ...getUsers,
+  },
+  '/users/{_id}':{
+      ...getUser,
+      ...updateUser,
+      ...deleteUser
+  }
 }

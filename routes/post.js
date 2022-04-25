@@ -3,13 +3,13 @@ const {create, readAll, readOne, update, remove } = require("../controllers/post
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("../controllers/verifyTokenController.js")
 
 // CRETAE POST
-router.post("/", verifyToken, create)
+router.post("/", verifyTokenAndAuthorization, create)
 
 // GET ALL POST
-router.get("/", verifyToken, readAll)
+router.get("/", readAll)
 
 // GET A POST
-router.get("/:id", verifyToken, readOne)
+router.get("/:id", readOne)
 
 // UPDATE A POST
 router.put("/:id", verifyTokenAndAuthorization, update)

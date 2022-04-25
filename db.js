@@ -9,7 +9,6 @@ module.exports = async (uri) => {
             useUnifiedTopology:true
             }
         );
-
         console.log("MongoDB connected");
     } catch (err) {
         console.log("can't connect database \n",err.message);
