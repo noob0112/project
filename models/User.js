@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, max: 50 },
     phone: { type: Number, required: true, unique: true },
-    email: { type: String, required: true, unique: true, max: 50 },
+    email: { type: String, index:true, required: true, unique: true, max: 50 },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
     // post: [ type: mongoose.Schema.ObjectId, ref: "Post"],

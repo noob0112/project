@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { readAll, readOne, update, remove } = require("../controllers/userController.js")
+const { readAll, readOne, updateUser, remove } = require("../controllers/userController.js")
 const { unFollow, follow } = require("../controllers/followController.js")
-const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("../controllers/verifyTokenController.js")
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("../controllers/verifyTokenController.js")
 
 // GET ALL USER
 router.get("/", readAll);
@@ -10,7 +10,10 @@ router.get("/", readAll);
 router.get("/:id", readOne);
 
 // UPDATE A USER BY ID
-router.put("/:id", verifyTokenAndAuthorization, update);
+router.put("/profile", verifyTokenAndAuthorization, updateUser);
+
+// UPDATE A USER BY ID
+router.put("/password", verifyTokenAndAuthorization, updateUser);
 
 // DELET A USER
 router.delete("/:id", verifyTokenAndAdmin, remove);

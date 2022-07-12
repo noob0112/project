@@ -46,7 +46,7 @@ const readOne = async (req, res) => {
 };
 
 // UPDATE USER
-const update = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     if(!req.user.isAdmin){
       data = {
@@ -58,8 +58,6 @@ const update = async (req, res) => {
     } else {
       data = req.body
     }
-
-    // return res.send(data)
 
     await User.findByIdAndUpdate(
       req.params.id,
@@ -113,4 +111,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { readOne, readAll, update, remove };
+module.exports = { readOne, readAll, updateUser, remove };
