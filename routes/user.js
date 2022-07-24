@@ -19,7 +19,7 @@ router.put("/profile", verifyToken, updateUser);
 router.put("/password", verifyToken, updateUser);
 
 // DELET A USER
-router.delete("/:id", verifyTokenAndAdmin, remove);
+router.delete("/:id", verifyTokenAndAuthorization, remove);
 
 // FOLLOW USER
 router.post("/follow-user", verifyTokenAndAuthorization, follow);
