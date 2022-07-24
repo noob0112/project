@@ -69,7 +69,7 @@ const login = async (req, res, next) => {
 
         res
           .status(200)
-          .json({ user: { userId: _id, ...orther }, accessToken });
+          .json({ user: { _id, ...orther }, accessToken });
       })
       .catch((error) => {
         return res
