@@ -34,12 +34,12 @@ const login = async (req, res, next) => {
   try {
     await User.findOne({ email: req.body.email })
       .then((user) => {
+        const { password, _id, ...orther } = user._doc;
+
         const hashedPassord = CryptoJS.AES.decrypt(
           user.password,
           process.env.PASS_SEC
         );
-
-        const { password, _id, ...orther } = user._doc;
 
         const originalPassword = hashedPassord.toString(CryptoJS.enc.Utf8);
 

@@ -100,9 +100,23 @@ const updateUser = async (req, res) => {
 // UPDATE PASSWORD
 const updatePassword = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id).catch(error => {
+      return res.status(500).json(error.message)
+    })
+
+    const hashedPassord = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_SEC
+    );
+
+    const originalPassword = hashedPassord.toString(CryptoJS.enc.Utf8);
+
+    if (originalPassword !== req.body.oldPassword)
+      return res.status(401).json({ status: 0, message: "OldPassword is incorect!" });
+
     data = {
       password: CryptoJS.AES.encrypt(
-        req.body.password,
+        req.body.newPassword,
         process.env.PASS_SEC
       ).toString(),
     }
@@ -159,4 +173,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { readMe, readOne, readAll, updateUser, remove };
+module.exports = { readMe, readOne, readAll, updateUser, updatePassword, remove };
