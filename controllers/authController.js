@@ -22,7 +22,7 @@ const register = async (req, res) => {
         res.status(201).json(savedUser);
       })
       .catch((error) => {
-        res.status(400).json({ message: "exist", error })
+        res.status(400).json({ message: "Account already exists" })
       });
   } catch (error) {
     res.status(500).json({ status: -1, message: "server error", error });
