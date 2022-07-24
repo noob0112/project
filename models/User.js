@@ -4,13 +4,14 @@ const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, max: 50 },
     phone: { type: Number, required: true, unique: true },
-    email: { type: String, index:true, required: true, unique: true, max: 50 },
+    email: { type: String, index: true, required: true, unique: true, max: 50 },
     password: { type: String, required: true },
+    avatar: { type: String, default: 'https://s3-hanoi-r1.ga/project-hung/avatar-user-null.png' },
     isAdmin: { type: Boolean, default: false },
     // post: [ type: mongoose.Schema.ObjectId, ref: "Post"],
     following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
     followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-    courses: [{type: mongoose.Schema.ObjectId, ref: "Course"}],
+    courses: [{ type: mongoose.Schema.ObjectId, ref: "Course" }],
   },
   { timestamps: true }
 );

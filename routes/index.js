@@ -5,6 +5,7 @@ const commentRouter = require("./comment.js");
 const courseRouter = require("./course.js");
 const eventRouter = require("./event.js");
 const symbolRouter = require("./symbol.js");
+const categoryRouter = require("./category.js");
 
 function route(app) {
   app.use("/users", authRouter);
@@ -14,6 +15,7 @@ function route(app) {
   app.use("/courses", courseRouter);
   app.use("/events", eventRouter);
   app.use("/symbols", symbolRouter);
+  app.use("/categories", categoryRouter);
 }
 
 module.exports = route;

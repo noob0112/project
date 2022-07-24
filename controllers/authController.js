@@ -21,7 +21,7 @@ const register = async (req, res) => {
         res.status(201).json(savedUser);
       })
       .catch((error) => {
-        res.status(400).json({message: "exist", error})
+        res.status(400).json({ message: "exist", error })
       });
   } catch (error) {
     res.status(500).json({ status: -1, message: "server error", error });
@@ -38,6 +38,8 @@ const login = async (req, res, next) => {
           process.env.PASS_SEC
         );
 
+        const { password, _id, ...orther } = user._doc;
+
         const originalPassword = hashedPassord.toString(CryptoJS.enc.Utf8);
 
         originalPassword !== req.body.password &&
@@ -45,8 +47,8 @@ const login = async (req, res, next) => {
 
         const accessToken = jwt.sign(
           {
-            id: user._id,
-            isAdmin: user.isAdmin,
+            id: _id,
+            ...orther
           },
           process.env.JWT_SEC,
           {
@@ -64,11 +66,10 @@ const login = async (req, res, next) => {
           }
         );
 
-        const { _id, name, phone, email, ...orther } = user._doc;
 
         res
           .status(200)
-          .json({ user: { _id, name, phone, email }, accessToken });
+          .json({ user: orther, accessToken });
       })
       .catch((error) => {
         return res

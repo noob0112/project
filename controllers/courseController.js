@@ -3,10 +3,13 @@ const User = require("../models/User.js");
 
 const create = async (req, res) => {
   const newCourse = new Course({
+    categoryId: req.body.categoryId,
+    authorName: req.user.name,
+    authorAvatar: req.user.avatar,
     title: req.body.title,
-    content: req.body.content,
-    url: req.body.url,
-    image: req.body.image,
+    description: req.body.description,
+    urlBanner: req.body.urlBanner,
+    ada: req.body.ada,
   });
 
   const error = newCourse.validateSync();
@@ -33,6 +36,20 @@ const create = async (req, res) => {
 };
 
 const readAll = async (req, res) => {
+  try {
+    await Course.find()
+      .then((course) => {
+        res.status(200).json(course);
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+  } catch (error) {
+    res.stauts(500).json(error);
+  }
+};
+
+const findList = async (req, res) => {
   try {
     await Course.find()
       .then((course) => {
@@ -178,4 +195,4 @@ const unJoin = async (req, res) => {
   }
 };
 
-module.exports = { create, readAll, readOne, update, remove, join, unJoin };
+module.exports = { create, readAll, findList, readOne, update, remove, join, unJoin };

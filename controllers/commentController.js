@@ -3,17 +3,20 @@ const Post = require("../models/Post.js");
 
 const create = async (req, res) => {
   const newComment = new Comment({
-    userId: req.user.id,
-    postId: req.body.postId,
+    idOwner: req.user.id,
+    nameOwner: req.user.name,
+    avatarOwner: req.user.avatar,
+    idPost: req.body.idPost,
     content: req.body.content,
   });
 
   const error = newComment.validateSync();
+
   if (error) {
     res.status(400).json(error);
   } else {
     try {
-      const commentId = await newComment
+      await newComment
         .save()
         .then((savedComment) => {
           res.status(200).json({
@@ -24,18 +27,8 @@ const create = async (req, res) => {
           return savedComment._id;
         })
         .catch((error) => {
-          return 0;
+          return res.status(400).json(error.message);
         });
-
-      if (commentId) {
-        await Post.findByIdAndUpdate(req.body.postId, {
-          $push: { comments: commentId },
-        })
-          .then((post) => {})
-          .catch((error) => {
-            return res.status(400).json(error);
-          });
-      } 
     } catch (error) {
       res.status(501).json(error);
     }
@@ -76,16 +69,16 @@ const update = async (req, res) => {
       req.params.id
     ).exec()
       .then((comment) => {
-        if(comment.userId == req.user.id){
+        if (comment.userId == req.user.id) {
           comment.content = req.body.content;
           res.status(200).json(comment);
           comment.save();
         } else {
-          res.status(400).json({message: "You are not alowed to do that!"});
+          res.status(400).json({ message: "You are not alowed to do that!" });
         }
       })
       .catch((error) => {
-        res.status(404).json({message: "CommentId is undifind!", error});
+        res.status(404).json({ message: "CommentId is undifind!", error });
       });
   } catch (error) {
     res.status(500).json(error);
@@ -118,7 +111,7 @@ const remove = async (req, res) => {
           return res.status(500).json(error);
         });
     } else {
-      return res.status(400).json({status: 0, error: err});
+      return res.status(400).json({ status: 0, error: err });
     }
   } catch (error) {
     res.status(500).json(error);

@@ -1,7 +1,10 @@
 const router = require("express").Router();
-const { readAll, readOne, updateUser, remove } = require("../controllers/userController.js")
+const { readMe, readAll, readOne, updateUser, remove } = require("../controllers/userController.js")
 const { unFollow, follow } = require("../controllers/followController.js")
 const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("../controllers/verifyTokenController.js")
+
+// GET ME
+router.get("/me", verifyToken, readMe);
 
 // GET ALL USER
 router.get("/", readAll);

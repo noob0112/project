@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.ObjectId, ref: "User" },
+    idOwner: { type: mongoose.Schema.ObjectId, ref: "User" },
+    nameOwner: { type: String, required: true },
+    avatarOwner: { type: String, required: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
     image: { type: String },
-    comments: [{type: mongoose.Schema.ObjectId, ref: "Comment"}]
   },
   { timestamps: true }
 );

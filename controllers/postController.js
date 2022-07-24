@@ -3,11 +3,14 @@ const Post = require("../models/Post.js");
 // CREATE POST
 const create = async (req, res) => {
   const newPost = new Post({
-    userId: req.user.id,
+    idOwner: req.user.id,
+    nameOwner: req.user.name,
+    avatarOwner: req.user.avatar,
     title: req.body.title,
     content: req.body.content,
     image: req.body.image,
   });
+
   try {
     await newPost
       .save()
@@ -19,6 +22,24 @@ const create = async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({ status: -1, message: "server error", error });
+  }
+};
+
+const findList = async (req, res) => {
+  try {
+    let limit = req.query.pageSize
+    let skip = limit * (req.query.pageIndex - 1)
+    if (skip < 0) skip = 0
+
+    await Post.find().limit(limit).skip(skip)
+      .then((post) => {
+        return res.status(200).json(post);
+      })
+      .catch((error) => {
+        return res.status(400).json(error);
+      });
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
 
@@ -79,24 +100,24 @@ const update = async (req, res) => {
   }
 };
 
-const remove = async (req,res) => {
-  try{
+const remove = async (req, res) => {
+  try {
     await Post.findByIdAndDelete(req.params.id)
-    .then((post) => {
-      res.status(200).json({
-        status: 1, message: `Post ${req.params.id} delete successfully`
+      .then((post) => {
+        res.status(200).json({
+          status: 1, message: `Post ${req.params.id} delete successfully`
+        })
       })
-    })
-    .catch( error => {
-      res.status(404).json({
-        status: 0, message: "Post-id is non-existence", error
+      .catch(error => {
+        res.status(404).json({
+          status: 0, message: "Post-id is non-existence", error
+        })
       })
-    })
-  } catch( error ) {
+  } catch (error) {
     res.status(500).json({
       status: -1, message: "Server error", error
     })
   }
 }
 
-module.exports = { create, readAll, readOne, update, remove };
+module.exports = { create, readAll, findList, readOne, update, remove };

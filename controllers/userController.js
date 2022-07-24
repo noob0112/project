@@ -1,12 +1,23 @@
 const User = require("../models/User");
+const CryptoJS = require("crypto-js");
+
+// GET ME
+const readMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id, '-password -isAdmin')
+    return res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
 
 // GET ALL USER
 const readAll = async (req, res) => {
   try {
-    if(req.user == undefined || !req.user.isAdmin){
-      const users = await User.find({}, '_id name');
+    if (req.user == undefined || !req.user.isAdmin) {
+      const users = await User.find({}, '-password -isAdmin');
       return res.status(200).json(users);
-    } else if(req.user.isAdmin) {
+    } else if (req.user.isAdmin) {
       const users = await User.find();
       return res.status(200).json(users);
     }
@@ -18,28 +29,28 @@ const readAll = async (req, res) => {
 // GET USER BY ID
 const readOne = async (req, res) => {
   try {
-    if(req.user == undefined || !req.user.isAdmin){
-      await User.findById(req.params.id, '_id name')
-      .then((user) => {
-        return res.status(200).json(user);
-      })
-      .catch((error) => {
-        return res
-          .status(400)
-          .json({ status: 0, message: "User-id is non-existence", error });
-      });
-    } else if(req.user.isAdmin){
+    if (req.user == undefined || !req.user.isAdmin) {
+      await User.findById(req.params.id, '-password -isAdmin')
+        .then((user) => {
+          return res.status(200).json(user);
+        })
+        .catch((error) => {
+          return res
+            .status(400)
+            .json({ status: 0, message: "User-id is non-existence", error });
+        });
+    } else if (req.user.isAdmin) {
       await User.findById(req.params.id)
-      .then((user) => {
-        return res.status(200).json(user);
-      })
-      .catch((error) => {
-        return res
-          .status(400)
-          .json({ status: 0, message: "User-id is non-existence", error });
-      });
-    } 
-    
+        .then((user) => {
+          return res.status(200).json(user);
+        })
+        .catch((error) => {
+          return res
+            .status(400)
+            .json({ status: 0, message: "User-id is non-existence", error });
+        });
+    }
+
   } catch (error) {
     return res.status(500).json({ status: -1, message: "Server error", error });
   }
@@ -48,29 +59,39 @@ const readOne = async (req, res) => {
 // UPDATE USER
 const updateUser = async (req, res) => {
   try {
-    if(!req.user.isAdmin){
+    if (!req.user.isAdmin) {
       data = {
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email,
-        password: req.body.password,
+        avatar: req.body.avatar,
+        password: CryptoJS.AES.encrypt(
+          req.body.password,
+          process.env.PASS_SEC
+        ).toString(),
       }
     } else {
-      data = req.body
+      data = {
+        ...req.body,
+        password: CryptoJS.AES.encrypt(
+          req.body.password,
+          process.env.PASS_SEC
+        ).toString(),
+      }
     }
 
     await User.findByIdAndUpdate(
-      req.params.id,
+      req.user.id,
       { $set: data },
-      { 
+      {
         new: true,
-        select: {isAdmin: 0}
+        select: { isAdmin: 0 }
       },
     )
       .then((user) => {
         res
           .status(200)
-          .json({ status: 1, message: `${req.params.id} update successfully` });
+          .json({ status: 1, user, message: `update successfully` });
       })
       .catch((error) => {
         res
@@ -90,18 +111,18 @@ const updateUser = async (req, res) => {
 const remove = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id)
-    .then((user) => {
-      res
-      .status(200)
-      .json({ status: 1, message: `User ${req.params.id} delete successfully` });
-    })
-    .catch(error => {
-      res.status(404).json({
-        status: 0,
-        message: "User-id is non-existence",
-        error
+      .then((user) => {
+        res
+          .status(200)
+          .json({ status: 1, message: `User ${req.params.id} delete successfully` });
       })
-    })
+      .catch(error => {
+        res.status(404).json({
+          status: 0,
+          message: "User-id is non-existence",
+          error
+        })
+      })
   } catch (error) {
     res.json({
       status: -1,
@@ -111,4 +132,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { readOne, readAll, updateUser, remove };
+module.exports = { readMe, readOne, readAll, updateUser, remove };
