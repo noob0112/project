@@ -8,6 +8,7 @@ const register = async (req, res) => {
     name: req.body.name,
     phone: req.body.phone,
     email: req.body.email,
+    avatar: req.body.avatar,
     password: CryptoJS.AES.encrypt(
       req.body.password,
       process.env.PASS_SEC

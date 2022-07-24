@@ -35,6 +35,20 @@ const create = async (req, res) => {
   }
 };
 
+const findCommentByPost = async (req, res) => {
+  try {
+    await Comment.find({ idPost: req.body.idPost })
+      .then((comments) => {
+        res.status(200).json(comments);
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+  } catch (error) {
+    res.stauts(500).json(error);
+  }
+}
+
 const readAll = async (req, res) => {
   try {
     await Comment.find()
@@ -118,4 +132,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { create, readAll, readOne, update, remove };
+module.exports = { create, readAll, readOne, update, remove, findCommentByPost };

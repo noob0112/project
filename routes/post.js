@@ -1,14 +1,18 @@
 const router = require("express").Router()
 const { create, readAll, findList, readOne, update, remove } = require("../controllers/postController.js")
 const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("../controllers/verifyTokenController.js")
+const { findCommentByPost } = require("../controllers/commentController")
+
+// GET LIST POSTS
+router.post("/comments", findCommentByPost)
 
 // CRETAE POST
 router.post("/", verifyTokenAndAuthorization, create)
 
-// GET ALL POST
+// GET ALL POSTS
 // router.get("/", readAll)
 
-// GET LIST POST
+// GET LIST Comments
 router.get("/", findList)
 
 // GET A POST
