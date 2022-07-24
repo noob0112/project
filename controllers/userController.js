@@ -65,19 +65,9 @@ const updateUser = async (req, res) => {
         phone: req.body.phone,
         email: req.body.email,
         avatar: req.body.avatar,
-        password: CryptoJS.AES.encrypt(
-          req.body.password,
-          process.env.PASS_SEC
-        ).toString(),
       }
     } else {
-      data = {
-        ...req.body,
-        password: CryptoJS.AES.encrypt(
-          req.body.password,
-          process.env.PASS_SEC
-        ).toString(),
-      }
+      data = req.body
     }
 
     await User.findByIdAndUpdate(
@@ -85,7 +75,44 @@ const updateUser = async (req, res) => {
       { $set: data },
       {
         new: true,
-        select: { isAdmin: 0 }
+        select: { password: 0 }
+      },
+    )
+      .then((user) => {
+        res
+          .status(200)
+          .json({ status: 1, user, message: `update successfully` });
+      })
+      .catch((error) => {
+        res
+          .status(404)
+          .json({ status: 0, message: "User-id is non-existence", error });
+      });
+  } catch (error) {
+    error.json({
+      status: -1,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+// UPDATE PASSWORD
+const updatePassword = async (req, res) => {
+  try {
+    data = {
+      password: CryptoJS.AES.encrypt(
+        req.body.password,
+        process.env.PASS_SEC
+      ).toString(),
+    }
+
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: data },
+      {
+        new: true,
+        select: { password: 0 }
       },
     )
       .then((user) => {

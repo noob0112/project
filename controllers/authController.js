@@ -67,10 +67,9 @@ const login = async (req, res, next) => {
           }
         );
 
-
         res
           .status(200)
-          .json({ user: orther, accessToken });
+          .json({ user: { userId: _id, ...orther }, accessToken });
       })
       .catch((error) => {
         return res

@@ -13,10 +13,10 @@ router.get("/", readAll);
 router.get("/:id", readOne);
 
 // UPDATE A USER BY ID
-router.put("/profile", verifyTokenAndAuthorization, updateUser);
+router.put("/profile", verifyToken, updateUser);
 
 // UPDATE A USER BY ID
-router.put("/password", verifyTokenAndAuthorization, updateUser);
+router.put("/password", verifyToken, updateUser);
 
 // DELET A USER
 router.delete("/:id", verifyTokenAndAdmin, remove);
