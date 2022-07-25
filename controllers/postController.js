@@ -15,13 +15,13 @@ const create = async (req, res) => {
     await newPost
       .save()
       .then((savedPost) => {
-        res.status(201).json(savedPost);
+        return res.status(201).json({ postId: savedPost._id, ...savedPost._doc });
       })
       .catch((error) => {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       });
   } catch (error) {
-    res.status(500).json({ status: -1, message: "server error", error });
+    return res.status(500).json({ status: -1, message: "server error", error });
   }
 };
 
@@ -32,8 +32,10 @@ const findList = async (req, res) => {
     if (skip < 0) skip = 0
 
     await Post.find().limit(limit).skip(skip)
-      .then((post) => {
-        return res.status(200).json(post);
+      .then((posts) => {
+        return res.status(200).json(posts.map(post => {
+          return { postId: post._id, ...post._doc }
+        }));
       })
       .catch((error) => {
         return res.status(400).json(error);
