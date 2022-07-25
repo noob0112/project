@@ -22,9 +22,9 @@ router.put("/updatePassword", verifyToken, updatePassword);
 router.delete("/:id", verifyTokenAndAuthorization, remove);
 
 // FOLLOW USER
-router.post("/follow-user", verifyTokenAndAuthorization, follow);
+router.post("/follow-user", verifyToken, follow);
 
 // UNFOLLOW USER
-router.post("/unfollow-user", verifyTokenAndAuthorization, unFollow);
+router.post("/unfollow-user", verifyToken, unFollow);
 
 module.exports = router
