@@ -27,8 +27,8 @@ const create = async (req, res) => {
 
 const findList = async (req, res) => {
   try {
-    let limit = req.query.pageSize
-    let skip = limit * (req.query.pageIndex - 1)
+    let limit = req.query.pageSize || 10
+    let skip = limit * (req.query.pageIndex - 1) || 0
     if (skip < 0) skip = 0
 
     await Post.find().limit(limit).skip(skip)

@@ -2,7 +2,7 @@ const Course = require("../models/Course.js");
 const User = require("../models/User.js");
 
 const create = async (req, res) => {
-  const newCourse = new Course({
+  const newCourse = Course({
     categoryId: req.body.categoryId,
     authorName: req.user.name,
     authorAvatar: req.user.avatar,
@@ -12,9 +12,12 @@ const create = async (req, res) => {
     ada: req.body.ada,
   });
 
+  console.log(newCourse)
+
   const error = newCourse.validateSync();
+
   if (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   } else {
     try {
       await newCourse
@@ -27,17 +30,21 @@ const create = async (req, res) => {
           });
         })
         .catch((error) => {
-          return res.status(400).json(error);
+          return res.status(400).json(error.message);
         });
     } catch (error) {
-      res.status(501).json(error);
+      return res.status(501).json(error);
     }
   }
 };
 
 const readAll = async (req, res) => {
   try {
-    await Course.find()
+    let limit = req.query.pageSize || 10
+    let skip = limit * (req.query.pageIndex - 1) || 0
+    if (skip < 0) skip = 0
+
+    await Course.find().limit(limit).skip(skip)
       .then((course) => {
         res.status(200).json(course);
       })
