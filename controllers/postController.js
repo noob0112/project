@@ -74,6 +74,9 @@ const readOne = async (req, res) => {
 };
 
 const update = async (req, res) => {
+  if (!req.body) {
+    return res.status(400).json('Please input data update')
+  }
   const post = {
     title: req.body.title,
     content: req.body.content,
