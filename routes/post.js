@@ -7,7 +7,7 @@ const { findCommentByPost } = require("../controllers/commentController")
 router.post("/comments", findCommentByPost)
 
 // CRETAE POST
-router.post("/", verifyTokenAndAuthorization, create)
+router.post("/", verifyToken, create)
 
 // GET ALL POSTS
 // router.get("/", readAll)
@@ -19,10 +19,10 @@ router.get("/", findList)
 router.get("/:id", readOne)
 
 // UPDATE A POST
-router.put("/:id", verifyTokenAndAuthorization, update)
+router.put("/:id", verifyToken, update)
 
 // DELETE A POST
-router.delete("/:id", verifyTokenAndAuthorization, remove)
+router.delete("/:id", verifyToken, remove)
 
 
 module.exports = router
