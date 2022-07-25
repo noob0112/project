@@ -31,7 +31,7 @@ const findList = async (req, res) => {
     let skip = limit * (req.query.pageIndex - 1) || 0
     if (skip < 0) skip = 0
 
-    await Post.find().limit(limit).skip(skip)
+    await Post.find().limit(limit).skip(skip).sort({ _id: -1 })
       .then((posts) => {
         return res.status(200).json(posts.map(post => {
           return { postId: post._id, ...post._doc }
