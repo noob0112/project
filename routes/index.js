@@ -7,6 +7,7 @@ const eventRouter = require("./event.js");
 const symbolRouter = require("./symbol.js");
 const categoryRouter = require("./category.js");
 const stockRouter = require("./stock.js");
+const predictStockRouter = require("./predictStock.js");
 const detailStockRouter = require("./detailStock.js");
 
 function route(app) {
@@ -19,6 +20,7 @@ function route(app) {
   app.use("/symbols", symbolRouter);
   app.use("/categories", categoryRouter);
   app.use("/stocks", stockRouter);
+  app.use("/predict-stocks", predictStockRouter);
   app.use("/detail-stocks", detailStockRouter);
 }
 

@@ -6,7 +6,14 @@ const readAll = async (req, res) => {
     // let skip = limit * (req.query.pageIndex - 1) || 0
     // if (skip < 0) skip = 0
 
-    // if (!req.query.symbol) res.status(400).json({ message: 'Please query with symbol' })
+    if (!req.query.symbol)
+        await Stock.find({})
+            .then((stocks) => {
+                return res.status(200).json(stocks);
+            })
+            .catch((error) => {
+                return res.status(404).json({ message: "Stocks are non-existence", error });
+            });
 
     let symbol = req.query.symbol
 
