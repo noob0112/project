@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const swaggerUI = require("swagger-ui-express");
+var compression = require('compression')
 
 const route = require("./routes/");
 const connectDB = require("./db.js");
@@ -13,7 +14,8 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(docs ));
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(docs));
+app.use(compression(6))
 
 connectDB(process.env.MONGO_URL);
 const PORT = process.env.PORT || 5000;

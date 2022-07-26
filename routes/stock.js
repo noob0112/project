@@ -1,12 +1,12 @@
 const router = require("express").Router()
-const { readAll, readOne, findStockToday } = require("../controllers/stockController.js")
+const { readAll, readOne, findStockToday, findOneYear } = require("../controllers/stockController.js")
 
-// GET LIST Comments
 router.get("/", readAll)
 
 router.get("/today", findStockToday)
 
-// GET A POST
+router.get("/one-year", findOneYear)
+
 router.get("/:id", readOne)
 
 module.exports = router

@@ -6,8 +6,10 @@ const readAll = async (req, res) => {
     let skip = limit * (req.query.pageIndex - 1)
     if (skip < 0) skip = 0
 
+    let query = req.query.symbol
+
     try {
-        await DetailStock.find().limit(limit).skip(skip)
+        await DetailStock.find({ ticker: query }).limit(limit).skip(skip)
             .then((detailStocks) => {
                 res.status(200).json(detailStocks);
             })

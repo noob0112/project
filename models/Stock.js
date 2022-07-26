@@ -7,7 +7,7 @@ const StockSchema = new mongoose.Schema(
         low: { type: Number, required: true },
         close: { type: Number, required: true },
         volume: { type: Number, required: true },
-        date: { type: Date, required: true },
+        date: { type: Date, required: true, index: true },
         symbol: { type: String, required: true, index: true },
     },
     { timestamps: true }
