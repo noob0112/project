@@ -29,11 +29,11 @@ const findByMe = async (req, res) => {
 }
 
 const remove = async (req, res) => {
-    await WatchList.findByIdAndDelete(req.param.watchListId).then(() => {
-        return res.status(200).json({ message: `Delete watch list successfully!` })
-    }).catch(error => {
+    await WatchList.findByIdAndDelete(req.params.watchListId).catch(error => {
         return res.status(500).json(error.message);
     })
+
+    return res.status(200).json({ message: `Delete watch list successfully!` })
 }
 
 module.exports = { create, findByMe, remove };
