@@ -9,11 +9,11 @@ const readAll = async (req, res) => {
                     return {
                         _id: stock._id,
                         symbol: stock.symbol,
-                        open: stock.open,
-                        close: stock.close,
-                        low: stock.low,
-                        high: stock.high,
-                        date: stock.date
+                        open: stock.Open,
+                        close: stock.Close,
+                        low: stock.Low,
+                        high: stock.High,
+                        date: stock.Date
                     }
                 }));
             })
@@ -30,11 +30,11 @@ const readAll = async (req, res) => {
                     return {
                         _id: stock._id,
                         symbol: stock.symbol,
-                        open: stock.open,
-                        close: stock.close,
-                        low: stock.low,
-                        high: stock.high,
-                        date: stock.date
+                        open: stock.Open,
+                        close: stock.Close,
+                        low: stock.Low,
+                        high: stock.High,
+                        date: stock.Date
                     }
                 }));
             })
