@@ -4,7 +4,18 @@ const readAll = async (req, res) => {
     if (!req.query.symbol)
         await PredictStock.find({})
             .then((stocks) => {
-                return res.status(200).json(stocks);
+
+                return res.status(200).json(stocks.map(stock => {
+                    return {
+                        _id: stock._id,
+                        symbol: stock.symbol,
+                        open: stock.open,
+                        close: stock.close,
+                        low: stock.low,
+                        high: stock.high,
+                        date: stock.date
+                    }
+                }));
             })
             .catch((error) => {
                 return res.status(404).json({ message: "Stocks are non-existence", error });
@@ -17,7 +28,17 @@ const readAll = async (req, res) => {
     try {
         await PredictStock.find({ symbol: symbol })
             .then((stocks) => {
-                return res.status(200).json(stocks);
+                return res.status(200).json(stocks.map(stock => {
+                    return {
+                        _id: stock._id,
+                        symbol: stock.symbol,
+                        open: stock.open,
+                        close: stock.close,
+                        low: stock.low,
+                        high: stock.high,
+                        date: stock.date
+                    }
+                }));
             })
             .catch((error) => {
                 return res.status(404).json({ message: "Stocks are non-existence", error });
