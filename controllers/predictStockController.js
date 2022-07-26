@@ -23,8 +23,6 @@ const readAll = async (req, res) => {
 
     let symbol = req.query.symbol
 
-    console.log(req.query.symbol)
-
     try {
         await PredictStock.find({ symbol: symbol })
             .then((stocks) => {

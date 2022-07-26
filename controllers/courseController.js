@@ -12,8 +12,6 @@ const create = async (req, res) => {
     ada: req.body.ada,
   });
 
-  console.log(newCourse)
-
   const error = newCourse.validateSync();
 
   if (error) {
