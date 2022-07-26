@@ -2,14 +2,12 @@ const DetailStock = require("../models/DetailStock");
 
 // GET ALL Stock
 const readAll = async (req, res) => {
-    let limit = req.query.pageSize || 10
-    let skip = limit * (req.query.pageIndex - 1) || 0
+    let limit = req.query.pageSize
+    let skip = limit * (req.query.pageIndex - 1)
     if (skip < 0) skip = 0
 
-    let symbol = req.query.symbol
-
     try {
-        await DetailStock.find({ symbol: symbol })
+        await DetailStock.find().limit(limit).skip(skip)
             .then((detailStocks) => {
                 res.status(200).json(detailStocks);
             })
