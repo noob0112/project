@@ -23,6 +23,20 @@ const readAll = async (req, res) => {
     }
 };
 
+const findStockToday = async (req, res) => {
+    try {
+        await Stock.find({ date: { $gte: new Date('2022-03-28T00:00:00.000') } })
+            .then((stocks) => {
+                return res.status(200).json(stocks);
+            })
+            .catch((error) => {
+                return res.status(404).json({ message: "Stocks are non-existence", error });
+            });
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+};
+
 // GET Stock BY ID
 const readOne = async (req, res) => {
     try {
@@ -46,4 +60,4 @@ const readOne = async (req, res) => {
     }
 };
 
-module.exports = { readOne, readAll };
+module.exports = { readOne, readAll, findStockToday };
