@@ -24,7 +24,7 @@ const readAll = async (req, res) => {
     let symbol = req.query.symbol
 
     try {
-        const stocks = await PredictStock.find({ symbol: symbol }).catch((error) => {
+        const stocks = await PredictStock.find({ Symbol: symbol }).catch((error) => {
             return res.status(404).json({ message: "Stocks are non-existence", error });
         });
         return res.status(200).json(stocks.map(stock => {
