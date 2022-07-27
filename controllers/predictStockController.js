@@ -9,7 +9,7 @@ const readAll = async (req, res) => {
             return res.status(200).json(stocks.map(stock => {
                 return {
                     _id: stock._id,
-                    symbol: stock.symbol,
+                    symbol: stock.Symbol,
                     open: stock._doc.Open,
                     close: stock._doc.Close,
                     low: stock._doc.Low,
@@ -30,7 +30,7 @@ const readAll = async (req, res) => {
         return res.status(200).json(stocks.map(stock => {
             return {
                 _id: stock._id,
-                symbol: stock.symbol,
+                symbol: stock.Symbol,
                 open: stock.Open,
                 close: stock.Close,
                 low: stock.Low,
