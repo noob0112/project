@@ -9,7 +9,7 @@ const readAll = async (req, res) => {
             return res.status(200).json(stocks.map(stock => {
                 return {
                     _id: stock._id,
-                    symbol: stock.Symbol,
+                    symbol: stock._doc.Symbol,
                     open: stock._doc.Open,
                     close: stock._doc.Close,
                     low: stock._doc.Low,
@@ -29,13 +29,13 @@ const readAll = async (req, res) => {
         });
         return res.status(200).json(stocks.map(stock => {
             return {
-                _id: stock._id,
-                symbol: stock.Symbol,
-                open: stock.Open,
-                close: stock.Close,
-                low: stock.Low,
-                high: stock.High,
-                date: stock.Date
+                _id: stock._doc._id,
+                symbol: stock._doc.Symbol,
+                open: stock._doc.Open,
+                close: stock._doc.Close,
+                low: stock._doc.Low,
+                high: stock._doc.High,
+                date: stock._doc.Date
             }
         }))
     } catch (error) {
