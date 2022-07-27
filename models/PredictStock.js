@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const PredictStockSchema = new mongoose.Schema(
     {
-        open: { type: Number, required: true },
-        hight: { type: Number, required: true },
-        low: { type: Number, required: true },
-        close: { type: Number, required: true },
-        volume: { type: Number, required: true },
-        date: { type: Date, required: true, index: true },
-        symbol: { type: String, required: true, index: true },
+        Open: { type: Number, required: true },
+        Hight: { type: Number, required: true },
+        Low: { type: Number, required: true },
+        Close: { type: Number, required: true },
+        Volume: { type: Number, required: true },
+        Date: { type: Date, required: true, index: true },
+        Symbol: { type: String, required: true, index: true },
     },
     { timestamps: true }
 );
